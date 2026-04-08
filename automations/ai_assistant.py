@@ -1,24 +1,40 @@
-"""Asistente IA con Claude para generar respuestas inteligentes."""
+"""Asistente IA con OpenRouter para generar respuestas inteligentes (gratis)."""
 
-import anthropic
-from config.settings import ANTHROPIC_API_KEY
+import httpx
+from config.settings import OPENROUTER_API_KEY
+
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
 
 
 class AIAssistant:
     def __init__(self):
-        self.client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+        self.headers = {
+            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+        }
+
+    def _chat(self, prompt: str) -> str:
+        """Envía un prompt al modelo y retorna la respuesta."""
+        response = httpx.post(
+            OPENROUTER_URL,
+            headers=self.headers,
+            json={
+                "model": MODEL,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 1024,
+            },
+            timeout=60,
+        )
+        data = response.json()
+        return data["choices"][0]["message"]["content"]
 
     def generate_email_reply(
         self, original_email: str, user_instruction: str, tone: str = "cordial"
     ) -> str:
         """Genera una respuesta de email basada en instrucciones del usuario."""
-        message = self.client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=1024,
-            messages=[
-                {
-                    "role": "user",
-                    "content": f"""Genera una respuesta de email en español.
+        return self._chat(
+            f"""Genera una respuesta de email en español.
 
 TONO: {tone}
 EMAIL ORIGINAL:
@@ -27,12 +43,8 @@ EMAIL ORIGINAL:
 INSTRUCCIÓN DEL USUARIO: {user_instruction}
 
 Escribe SOLO el cuerpo del email de respuesta, sin "Asunto:" ni encabezados.
-Debe ser profesional, {tone} y directo.""",
-                }
-            ],
+Debe ser profesional, {tone} y directo."""
         )
-
-        return message.content[0].text
 
     def summarize_emails(self, emails: list[dict]) -> str:
         """Resume una lista de emails no leídos."""
@@ -41,35 +53,21 @@ Debe ser profesional, {tone} y directo.""",
             for e in emails
         )
 
-        message = self.client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=1024,
-            messages=[
-                {
-                    "role": "user",
-                    "content": f"""Resume estos emails no leídos en español.
+        return self._chat(
+            f"""Resume estos emails no leídos en español.
 Agrúpalos por prioridad (urgente, importante, informativo).
 Sé conciso, máximo 2 líneas por email.
 
 EMAILS:
-{email_text}""",
-                }
-            ],
+{email_text}"""
         )
-
-        return message.content[0].text
 
     def generate_standup_report(
         self, emails_summary: str, calendar_events: str, tasks: str
     ) -> str:
         """Genera un reporte de standup diario."""
-        message = self.client.messages.create(
-            model="claude-sonnet-4-6",
-            max_tokens=1024,
-            messages=[
-                {
-                    "role": "user",
-                    "content": f"""Genera un reporte de standup diario en español basado en:
+        return self._chat(
+            f"""Genera un reporte de standup diario en español basado en:
 
 EMAILS DE HOY:
 {emails_summary}
@@ -83,9 +81,5 @@ TAREAS:
 Formato:
 - Que hice ayer (inferir de emails/eventos pasados)
 - Que haré hoy (basado en calendario y tareas)
-- Bloqueantes (si los hay)""",
-                }
-            ],
+- Bloqueantes (si los hay)"""
         )
-
-        return message.content[0].text

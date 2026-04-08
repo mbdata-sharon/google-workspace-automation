@@ -65,7 +65,7 @@ google-workspace-automation/
 - **Backend**: Python + FastAPI
 - **Frontend**: HTML, CSS, JavaScript
 - **Bot**: python-telegram-bot
-- **AI**: Claude API (Anthropic)
+- **AI**: OpenRouter AI (gratis)
 - **APIs**: Google APIs (Gmail, Calendar, Drive, Sheets)
 - **Auth**: OAuth 2.0
 
@@ -142,7 +142,7 @@ Desde tu celular, controla todo tu workspace con comandos simples. El bot genera
 | FastAPI | Backend REST API |
 | Google APIs | Gmail, Calendar, Drive, Sheets |
 | python-telegram-bot | Bot de Telegram |
-| Claude API | Generacion de respuestas con IA |
+| Google Gemini API | Generacion de respuestas con IA (gratis) |
 | HTML/CSS/JS | Dashboard web |
 | OAuth 2.0 | Autenticacion segura |
 

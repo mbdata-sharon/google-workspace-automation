@@ -20,8 +20,8 @@ GOOGLE_SCOPES = [
 # Telegram
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
-# Claude AI
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+# OpenRouter AI (gratis)
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # App
 APP_SECRET_KEY = os.getenv("APP_SECRET_KEY", "dev-secret-key")
