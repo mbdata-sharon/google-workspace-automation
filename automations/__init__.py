@@ -1,0 +1,5 @@
+from automations.gmail_automation import GmailAutomation
+from automations.calendar_automation import CalendarAutomation
+from automations.drive_automation import DriveAutomation
+from automations.sheets_automation import SheetsAutomation
+from automations.ai_assistant import AIAssistant

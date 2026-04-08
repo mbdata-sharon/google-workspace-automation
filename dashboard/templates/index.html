@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Workspace Automation</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>GWS Auto</h2>
+            <p>Tu asistente inteligente</p>
+        </div>
+        <ul class="nav-links">
+            <li class="active" data-section="overview">
+                <span class="icon">&#9776;</span> Dashboard
+            </li>
+            <li data-section="gmail">
+                <span class="icon">&#9993;</span> Gmail
+            </li>
+            <li data-section="calendar">
+                <span class="icon">&#128197;</span> Calendar
+            </li>
+            <li data-section="drive">
+                <span class="icon">&#128193;</span> Drive
+            </li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <!-- Overview -->
+        <section id="overview" class="section active">
+            <h1>Dashboard</h1>
+            <div class="cards">
+                <div class="card" id="card-unread">
+                    <h3>Emails no leidos</h3>
+                    <p class="card-number" id="unread-count">--</p>
+                </div>
+                <div class="card" id="card-events">
+                    <h3>Eventos hoy</h3>
+                    <p class="card-number" id="events-count">--</p>
+                </div>
+                <div class="card" id="card-files">
+                    <h3>Archivos recientes</h3>
+                    <p class="card-number" id="files-count">--</p>
+                </div>
+                <div class="card" id="card-storage">
+                    <h3>Almacenamiento</h3>
+                    <p class="card-number" id="storage-info">--</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>Resumen Inteligente</h2>
+                <button id="btn-summary" class="btn">Generar resumen con IA</button>
+                <div id="ai-summary" class="ai-box"></div>
+            </div>
+        </section>
+
+        <!-- Gmail -->
+        <section id="gmail" class="section">
+            <h1>Gmail</h1>
+            <div class="toolbar">
+                <button class="btn" id="btn-triage">Triage Inbox</button>
+                <button class="btn" id="btn-refresh-email">Actualizar</button>
+            </div>
+            <div id="email-list" class="list-container"></div>
+
+            <!-- Modal de respuesta -->
+            <div id="reply-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h3>Responder con IA</h3>
+                    <p id="reply-original"></p>
+                    <textarea id="reply-instruction" placeholder="Ej: respondele cordialmente que no puedo asistir a la reunion"></textarea>
+                    <div class="modal-actions">
+                        <button class="btn" id="btn-generate-reply">Generar respuesta</button>
+                        <button class="btn btn-secondary" id="btn-cancel-reply">Cancelar</button>
+                    </div>
+                    <div id="reply-draft" class="ai-box hidden"></div>
+                    <button class="btn btn-success hidden" id="btn-send-reply">Enviar respuesta</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar -->
+        <section id="calendar" class="section">
+            <h1>Calendar</h1>
+            <div class="toolbar">
+                <button class="btn" id="btn-today">Hoy</button>
+                <button class="btn" id="btn-week">Esta semana</button>
+            </div>
+            <div id="calendar-events" class="list-container"></div>
+        </section>
+
+        <!-- Drive -->
+        <section id="drive" class="section">
+            <h1>Drive</h1>
+            <div class="toolbar">
+                <input type="text" id="drive-search" placeholder="Buscar archivos...">
+                <button class="btn" id="btn-search-drive">Buscar</button>
+            </div>
+            <div id="drive-files" class="list-container"></div>
+        </section>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
